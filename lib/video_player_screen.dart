@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import 'model/viideos_list.dart';
+
 class VideoPlayerScreen extends StatefulWidget {
   //
-  // VideoPlayerScreen({this.videoItem});
-  // final VideoItem videoItem;
+  VideoPlayerScreen({this.videoItem});
+  final VideoItem videoItem;
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
@@ -18,9 +20,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   void initState() {
     super.initState();
+
     _isPlayerReady = false;
     _controller = YoutubePlayerController(
-    /*  initialVideoId: widget.videoItem.video.resourceId.videoId,*/
+      initialVideoId: widget.videoItem.video.resourceId.videoId,
       flags: YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -50,7 +53,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // title: Text(/*widget.videoItem.video.title*/),
+        title: Text(widget.videoItem.video.title),
       ),
       body: Container(
         child: YoutubePlayer(

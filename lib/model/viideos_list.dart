@@ -4,8 +4,7 @@
 
 import 'dart:convert';
 
-VideosList videosListFromJson(String str) =>
-    VideosList.fromJson(json.decode(str));
+VideosList videosListFromJson(String str) => VideosList.fromJson(json.decode(str));
 
 String videosListToJson(VideosList data) => json.encode(data.toJson());
 
@@ -13,23 +12,22 @@ class VideosList {
   VideosList({
     this.kind,
     this.etag,
-    this.nextPageToken,
     this.videos,
+    this.nextPageToken,
     this.pageInfo,
   });
-
   String kind;
   String etag;
-  String nextPageToken;
   List<VideoItem> videos;
+  String nextPageToken;
+
   PageInfo pageInfo;
 
   factory VideosList.fromJson(Map<String, dynamic> json) => VideosList(
     kind: json["kind"],
-    etag: json["etag"],
     nextPageToken: json["nextPageToken"],
-    videos: List<VideoItem>.from(
-        json["items"].map((x) => VideoItem.fromJson(x))),
+    etag: json["etag"],
+    videos: List<VideoItem>.from(json["items"].map((x) => VideoItem.fromJson(x))),
     pageInfo: PageInfo.fromJson(json["pageInfo"]),
   );
 
@@ -37,6 +35,7 @@ class VideosList {
     "kind": kind,
     "etag": etag,
     "nextPageToken": nextPageToken,
+
     "items": List<dynamic>.from(videos.map((x) => x.toJson())),
     "pageInfo": pageInfo.toJson(),
   };
@@ -81,6 +80,8 @@ class Video {
     this.playlistId,
     this.position,
     this.resourceId,
+    this.videoOwnerChannelTitle,
+    this.videoOwnerChannelId,
   });
 
   DateTime publishedAt;
@@ -92,6 +93,8 @@ class Video {
   String playlistId;
   int position;
   ResourceId resourceId;
+  String videoOwnerChannelTitle;
+  String videoOwnerChannelId;
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
     publishedAt: DateTime.parse(json["publishedAt"]),
@@ -103,6 +106,8 @@ class Video {
     playlistId: json["playlistId"],
     position: json["position"],
     resourceId: ResourceId.fromJson(json["resourceId"]),
+    videoOwnerChannelTitle: json["videoOwnerChannelTitle"],
+    videoOwnerChannelId: json["videoOwnerChannelId"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -115,6 +120,8 @@ class Video {
     "playlistId": playlistId,
     "position": position,
     "resourceId": resourceId.toJson(),
+    "videoOwnerChannelTitle": videoOwnerChannelTitle,
+    "videoOwnerChannelId": videoOwnerChannelId,
   };
 }
 
@@ -157,19 +164,16 @@ class Thumbnails {
     thumbnailsDefault: Default.fromJson(json["default"]),
     medium: Default.fromJson(json["medium"]),
     high: Default.fromJson(json["high"]),
-    standard: null == json["standard"]
-        ? null
-        : Default.fromJson(json["standard"]),
-    maxres:
-    null == json["maxres"] ? null : Default.fromJson(json["maxres"]),
+    standard: json["standard"] == null ? null : Default.fromJson(json["standard"]),
+    maxres: json["maxres"] == null ? null : Default.fromJson(json["maxres"]),
   );
 
   Map<String, dynamic> toJson() => {
     "default": thumbnailsDefault.toJson(),
     "medium": medium.toJson(),
     "high": high.toJson(),
-    "standard": standard.toJson(),
-    "maxres": maxres.toJson(),
+    "standard": standard == null ? null : standard.toJson(),
+    "maxres": maxres == null ? null : maxres.toJson(),
   };
 }
 
